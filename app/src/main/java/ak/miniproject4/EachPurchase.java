@@ -23,7 +23,7 @@ public class EachPurchase extends AppCompatActivity  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.each_purchase);
+        setContentView(R.layout.each_purchase2);
 
         mAdapter = new PurchaseAdapter(mDataList);
         mRecyclerView.setAdapter(mAdapter);
