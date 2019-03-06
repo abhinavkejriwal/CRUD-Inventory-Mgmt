@@ -1,3 +1,4 @@
+/*
 package ak.miniproject4;
 
 import android.os.Bundle;
@@ -34,10 +35,13 @@ public class EachPurchase extends AppCompatActivity  {
         //do nothing.
     }
 
-    /*1. A custom class to handle each individual purchase
+    */
+/*1. A custom class to handle each individual purchase
             The class you creates should contain the following attributes:
             1. The cost of each purchase
          2. A short description of what was purchased
          3. Name of the supplying merchants (store name/vendor name)
-         4. The date of when the purchase was made*/
+         4. The date of when the purchase was made*//*
+
 }
+*/
