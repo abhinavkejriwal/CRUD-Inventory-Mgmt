@@ -2,15 +2,19 @@ package ak.miniproject4;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+
+import java.util.ArrayList;
 
 import static ak.miniproject4.PurchaseContract.SchemaDef.COST;
 import static ak.miniproject4.PurchaseContract.SchemaDef.DATE;
 import static ak.miniproject4.PurchaseContract.SchemaDef.DESCRIPTION;
 import static ak.miniproject4.PurchaseContract.SchemaDef.STORE;
 import static ak.miniproject4.PurchaseContract.SchemaDef.TABLE_NAME;
+import static android.provider.BlockedNumberContract.BlockedNumbers.COLUMN_ID;
 
 public class DataBaseCreator extends SQLiteOpenHelper {
 
@@ -61,6 +65,46 @@ public class DataBaseCreator extends SQLiteOpenHelper {
         contentValues.put(DATE, date);
         db.insert(TABLE_NAME, null, contentValues);
         return true;
+    }
+
+    public ArrayList<Purchase> getAll() {
+        ArrayList<Purchase> purchases = new ArrayList<>();
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY " +
+                DATE + " DESC";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                String store = cursor.getString(cursor.getColumnIndex(STORE));
+                String cost = cursor.getString(cursor.getColumnIndex(COST));
+                String description = cursor.getString(cursor.getColumnIndex(DESCRIPTION));
+                String date = cursor.getString(cursor.getColumnIndex(DATE));
+                int id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
+                Purchase purchase = new Purchase(cost, description, store, date);
+                purchases.add(purchase);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return purchases;
+    }
+    public Purchase getPurchase(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME,
+                new String[]{COLUMN_ID, STORE, COST, DESCRIPTION, DATE},
+                COLUMN_ID + " =?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        Purchase purchase = new Purchase(
+                cursor.getString(cursor.getColumnIndex(COST)),
+                cursor.getString(cursor.getColumnIndex(DESCRIPTION)),
+                cursor.getString(cursor.getColumnIndex(STORE)),
+                cursor.getString(cursor.getColumnIndex(DATE)));
+        // purchase.setID(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
+        cursor.close();
+        return purchase;
+
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
