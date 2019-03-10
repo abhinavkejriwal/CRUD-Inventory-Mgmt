@@ -1,15 +1,23 @@
 package ak.miniproject4;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
+// import android.widget.SearchView;
+// import android.support.v7.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,19 +25,26 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     Button inventoryButton;
+    // SearchView mSearch;
     PurchaseAdapter mAdapter;
-    ArrayList<Purchase> mDataList = new ArrayList<Purchase>();
+    public static ArrayList<Purchase> mDataList = new ArrayList<Purchase>();
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    EditText costEdit, aboutEdit, storeEdit, dateEdit, deleteEdit;
+    Button mFab;
+    EditActivity editActivity;
+    // String query;
+    /*EditText costEdit, aboutEdit, storeEdit, dateEdit, deleteEdit;
     String costEditString, aboutEditString, storeEditString, dateEditString;
-    Button submit, delete;
+    Button submit, delete;*/
     //SQLiteDatabase mine = this.;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mFab = findViewById(R.id.mFab);
+        // mSearch = findViewById(R.id.searchID);
 
         recyclerView = findViewById(R.id.recyclerView);
         layoutManager = new LinearLayoutManager(this);
@@ -39,7 +54,21 @@ public class MainActivity extends AppCompatActivity {
 
         mAdapter = new PurchaseAdapter(mDataList);
         recyclerView.setAdapter(mAdapter);
+        //recyclerView.notify();
 
+
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, EditActivity.class);
+                startActivity(i);
+            }
+        });
+
+        // mAdapter.notifyDataSetChanged();
+
+    }
+/*
         costEdit = (EditText) findViewById(R.id.costEditID);
         aboutEdit = (EditText) findViewById(R.id.aboutEditID);
         storeEdit = (EditText) findViewById(R.id.storeEditID);
@@ -77,15 +106,15 @@ public class MainActivity extends AppCompatActivity {
                     // startActivity(intent);
                 }
             }
-        });
+        });*/
 
-        delete.setOnClickListener(new View.OnClickListener() {
+        /*delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String deleteEditString = deleteEdit.getText().toString();
                     myDataBaseCreator.deleteTitle(deleteEditString);
                 }
-        });
+        });*/
 
         // inventoryButton = findViewById(R.id.inventButton);
 /*         inventoryButton.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +124,54 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });*/
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        final MenuItem mSearch = menu.findItem(R.id.menuID);
+        final SearchView searchView = (SearchView) mSearch.getActionView();
+        searchView.setQueryHint("Description");
+        SharedPreferences sPref = this.getPreferences(Context.MODE_PRIVATE);
+        String search = sPref.getString("search", "");
+        if (search != "") {
+            searchView.setQuery(search, false);
+        }
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                query = query.toLowerCase();
+                dotheSearch(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                newText = newText.toLowerCase();
+                dotheSearch(newText);
+                return false;
+            }
+        });
+        return true;
+
+    }
+
+    public void dotheSearch(String query) {
+        ArrayList<Purchase> mList = new ArrayList<>();
+        for (Purchase p: mDataList) {
+            String pDesc = p.getDesc().toLowerCase();
+            if (pDesc.contains(query)) {
+                mList.add(p);
+            }
+
+        }
+        SharedPreferences sPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sPref.edit();
+        editor.putString("search", query);
+        editor.commit();
+
+        mAdapter.notifyDataSetChanged();
 
 
     }
@@ -111,6 +188,11 @@ public class MainActivity extends AppCompatActivity {
         mDataList.add(purchase4);
         mDataList.add(purchase5);
     }
+
+    public ArrayList<Purchase> getter() {
+        return this.mDataList;
+    }
+
 }
 
 /*

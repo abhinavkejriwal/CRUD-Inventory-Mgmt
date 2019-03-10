@@ -28,13 +28,12 @@ public class DataBaseCreator extends SQLiteOpenHelper {
 
     }
 
-    public boolean deleteTitle(String name) {
+    public int deleteTitle(String name) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return
-                db.delete(TABLE_NAME, COST + "=" + name, null) ||
-                        db.delete(TABLE_NAME, DESCRIPTION + "=" + name, null) ||
-                        db.delete(TABLE_NAME, STORE + "=" + name, null) ||
-                        db.delete(TABLE_NAME, DATE + "=" + name, null);
+        return (db.delete(TABLE_NAME, DESCRIPTION + "=" + name, null));
+                // (db.delete(TABLE_NAME, COST + "=" + name, null)) ||
+                        // db.delete(TABLE_NAME, STORE + "=" + name, null) ||
+                        // db.delete(TABLE_NAME, DATE + "=" + name, null);
     }
 
     public void onCreate(SQLiteDatabase db) {

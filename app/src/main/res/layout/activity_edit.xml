@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".addActivity">
+
+    <EditText
+        android:id="@+id/aboutEditID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="180dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="Item Purchased"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/costEditID"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.062" />
+
+    <EditText
+        android:id="@+id/costEditID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="180dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:hint="Cost"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/dateEditID"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/dateEditID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="180dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:hint="Date of Purchase"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/storeEditID"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/storeEditID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="180dp"
+        android:layout_marginBottom="372dp"
+        android:ems="10"
+        android:hint="Store/Vendor"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/submitID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="172dp"
+        android:layout_marginBottom="312dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/deleteEditID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="180dp"
+        android:layout_marginBottom="95dp"
+        android:ems="10"
+        android:hint="Delete Record"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/recyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/submitID"
+        app:layout_constraintVertical_bias="0.009" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.465"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deleteEditID"
+        app:layout_constraintVertical_bias="0.032" />
+</android.support.constraint.ConstraintLayout>
